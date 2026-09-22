@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ROSTOK — маркетплейс растений от коллекционеров</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0C120E;
+  --bg-elev:#101710;
+  --surface:#151F18;
+  --surface-2:#1C2A21;
+  --surface-hover:#223226;
+  --border:#25352B;
+  --border-soft:#1C281F;
+  --text:#EAF2EA;
+  --text-dim:#96A99D;
+  --text-faint:#5B6C61;
+  --accent:#9FE870;
+  --accent-strong:#B6F98C;
+  --accent-deep:#4E9E4B;
+  --accent-contrast:#0C1409;
+  --danger:#E8746B;
+  --gold:#E0B15C;
+  --radius-lg:18px;
+  --radius:12px;
+  --radius-sm:8px;
+  --font-display:'Fraunces', Georgia, serif;
+  --font-ui:'Manrope', system-ui, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-ui);
+  -webkit-font-smoothing:antialiased;
+  min-height:100%;
+}
+img,svg{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit}
+::selection{background:var(--accent);color:var(--accent-contrast)}
+
+/* ---------- layout shell ---------- */
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.hide{display:none !important}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:50;
+  background:rgba(12,18,14,0.86);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border-soft);
+}
+.header-inner{
+  display:flex;align-items:center;gap:20px;
+  padding:14px 24px;max-width:1240px;margin:0 auto;
+}
+.logo{
+  display:flex;align-items:center;gap:9px;
+  font-family:var(--font-display);
+  font-weight:600;font-size:22px;letter-spacing:0.2px;
+  flex-shrink:0;
+}
+.logo-mark{
+  width:30px;height:30px;border-radius:9px;
+  background:linear-gradient(150deg,var(--accent),var(--accent-deep));
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.logo-mark svg{width:17px;height:17px}
+.search-bar{
+  flex:1;display:flex;align-items:center;gap:10px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:999px;padding:10px 16px;
+  transition:border-color .15s;
+  max-width:560px;
+}
+.search-bar:focus-within{border-color:var(--accent-deep)}
+.search-bar input{
+  flex:1;background:none;border:none;outline:none;color:var(--text);
+  font-size:14px;
+}
+.search-bar input::placeholder{color:var(--text-faint)}
+.search-bar svg{width:16px;height:16px;color:var(--text-faint);flex-shrink:0}
+
+.nav-icons{display:flex;align-items:center;gap:6px;margin-left:auto}
+.icon-btn{
+  position:relative;
+  width:40px;height:40px;border-radius:999px;border:1px solid var(--border);
+  background:var(--surface);display:flex;align-items:center;justify-content:center;
+  color:var(--text-dim);transition:.15s;
+}
+.icon-btn:hover{background:var(--surface-2);color:var(--text)}
+.icon-btn svg{width:18px;height:18px}
+.badge-count{
+  position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;padding:0 4px;
+  background:var(--accent);color:var(--accent-contrast);
+  border-radius:999px;font-size:10px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-link{
+  font-size:14px;color:var(--text-dim);padding:9px 4px;white-space:nowrap;
+  border-bottom:2px solid transparent;transition:.15s;
+}
+.nav-link:hover{color:var(--text)}
+.btn-cta{
+  background:var(--accent);color:var(--accent-contrast);
+  border:none;border-radius:999px;padding:10px 18px;
+  font-weight:700;font-size:14px;white-space:nowrap;
+  transition:transform .1s, background .15s;
+  flex-shrink:0;
+}
+.btn-cta:hover{background:var(--accent-strong)}
+.btn-cta:active{transform:scale(0.97)}
+.btn-ghost{
+  background:transparent;color:var(--text);border:1px solid var(--border);
+  border-radius:999px;padding:10px 16px;font-weight:600;font-size:14px;
+  transition:.15s;
+}
+.btn-ghost:hover{background:var(--surface)}
+.btn-outline-accent{
+  background:transparent;color:var(--accent);border:1px solid var(--accent-deep);
+  border-radius:999px;padding:9px 16px;font-weight:700;font-size:13.5px;
+}
+.btn-outline-accent:hover{background:rgba(159,232,112,0.08)}
+.btn-block{width:100%;display:flex;align-items:center;justify-content:center;gap:8px}
+
+.subnav{
+  border-bottom:1px solid var(--border-soft);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.subnav::-webkit-scrollbar{display:none}
+.subnav-inner{
+  display:flex;gap:22px;max-width:1240px;margin:0 auto;padding:0 24px;
+}
+.subnav .nav-link.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+main{padding-bottom:80px}
+
+/* ---------- hero ---------- */
+.hero{
+  padding:56px 0 34px;
+  border-bottom:1px solid var(--border-soft);
+  background:
+    radial-gradient(ellipse 700px 260px at 14% -10%, rgba(159,232,112,0.14), transparent 60%),
+    var(--bg);
+}
+.hero-inner{display:flex;gap:40px;align-items:center;flex-wrap:wrap}
+.hero-text{flex:1;min-width:280px}
+.eyebrow-plain{color:var(--text-dim);font-size:14px;margin:0 0 10px}
+.hero h1{
+  font-family:var(--font-display);
+  font-size:44px;line-height:1.12;font-weight:600;margin:0 0 16px;
+  max-width:560px;letter-spacing:-0.4px;
+}
+.hero p{color:var(--text-dim);font-size:16px;line-height:1.6;max-width:460px;margin:0 0 26px}
+.hero-stats{display:flex;gap:28px;flex-wrap:wrap}
+.hero-stat b{display:block;font-family:var(--font-display);font-size:24px;font-weight:600}
+.hero-stat span{color:var(--text-faint);font-size:13px}
+.hero-art{flex-shrink:0;width:260px;height:260px;position:relative}
+
+/* ---------- chips / categories ---------- */
+.chip-row{
+  display:flex;gap:10px;padding:20px 0 6px;overflow-x:auto;scrollbar-width:none;
+}
+.chip-row::-webkit-scrollbar{display:none}
+.chip{
+  flex-shrink:0;
+  display:flex;align-items:center;gap:7px;
+  padding:9px 16px;border-radius:999px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text-dim);font-size:13.5px;font-weight:600;
+  transition:.15s;white-space:nowrap;
+}
+.chip svg{width:15px;height:15px}
+.chip:hover{border-color:var(--accent-deep);color:var(--text)}
+.chip.active{background:var(--accent);border-color:var(--accent);color:var(--accent-contrast)}
+
+/* ---------- catalog layout ---------- */
+.catalog-layout{display:flex;gap:28px;padding-top:22px;align-items:flex-start}
+.filters{
+  width:246px;flex-shrink:0;
+  background:var(--surface);border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg);padding:20px;
+  position:sticky;top:96px;
+}
+.filters h3{font-size:14px;margin:0 0 14px;font-weight:700}
+.filter-group{margin-bottom:20px}
+.filter-group:last-child{margin-bottom:0}
+.filter-label{font-size:12.5px;color:var(--text-faint);font-weight:700;margin-bottom:10px;display:block}
+.check-row{display:flex;align-items:center;gap:9px;margin-bottom:9px;font-size:13.5px;color:var(--text-dim);cursor:pointer}
+.check-row input{accent-color:var(--accent);width:15px;height:15px}
+.check-row:hover{color:var(--text)}
+.price-range{display:flex;gap:8px}
+.price-range input{
+  width:100%;background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:8px 10px;color:var(--text);font-size:13px;outline:none;
+}
+.price-range input:focus{border-color:var(--accent-deep)}
+
+.catalog-main{flex:1;min-width:0}
+.catalog-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.result-count{color:var(--text-dim);font-size:14px}
+.sort-select{
+  background:var(--surface);border:1px solid var(--border);color:var(--text);
+  padding:9px 12px;border-radius:var(--radius-sm);font-size:13.5px;outline:none;
+}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+
+.card{
+  background:var(--surface);border:1px solid var(--border-soft);border-radius:var(--radius-lg);
+  overflow:hidden;transition:border-color .15s, transform .1s;cursor:pointer;position:relative;
+}
+.card:hover{border-color:var(--accent-deep)}
+.card-art{
+  aspect-ratio:1/0.82;position:relative;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.card-art svg{width:64%;height:64%}
+.fav-btn{
+  position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:999px;
+  background:rgba(12,18,14,0.55);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:center;color:#fff;z-index:2;
+}
+.fav-btn svg{width:15px;height:15px}
+.fav-btn.active svg{fill:var(--accent);color:var(--accent)}
+.tag-pill{
+  position:absolute;top:10px;left:10px;background:rgba(12,18,14,0.65);backdrop-filter:blur(4px);
+  border:1px solid rgba(255,255,255,0.08);color:var(--accent-strong);font-size:11px;font-weight:700;
+  padding:4px 9px;border-radius:999px;z-index:2;
+}
+.tag-pill.mine{color:var(--gold)}
+.card-body{padding:13px 14px 15px}
+.card-title{font-size:14px;font-weight:600;line-height:1.35;margin:0 0 8px;color:var(--text);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
+.card-price{font-family:var(--font-display);font-size:19px;font-weight:600;margin-bottom:8px}
+.card-meta{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-faint);margin-bottom:8px}
+.card-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--text-faint)}
+.seller-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-dim)}
+.avatar-mini{width:18px;height:18px;border-radius:50%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--accent);flex-shrink:0}
+.star{color:var(--gold);font-size:11px}
+.verified-mark{width:13px;height:13px;color:var(--accent);flex-shrink:0}
+
+.empty-state{
+  padding:60px 20px;text-align:center;color:var(--text-faint);
+  border:1px dashed var(--border);border-radius:var(--radius-lg);
+}
+.empty-state svg{width:40px;height:40px;margin:0 auto 14px;color:var(--text-faint)}
+.empty-state h4{color:var(--text-dim);font-size:16px;margin:0 0 6px}
+
+/* ---------- listing detail ---------- */
+.back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-dim);font-size:13.5px;margin:22px 0 18px}
+.back-link:hover{color:var(--text)}
+.back-link svg{width:15px;height:15px}
+.listing-layout{display:flex;gap:36px;align-items:flex-start;flex-wrap:wrap}
+.gallery{width:420px;flex-shrink:0}
+@media(max-width:900px){.gallery{width:100%}}
+.gallery-main{
+  aspect-ratio:1/0.9;border-radius:var(--radius-lg);background:var(--surface);border:1px solid var(--border-soft);
+  display:flex;align-items:center;justify-content:center;margin-bottom:10px;overflow:hidden;
+}
+.gallery-main svg{width:56%;height:56%}
+.gallery-thumbs{display:flex;gap:8px}
+.gallery-thumb{
+  width:64px;height:64px;border-radius:var(--radius-sm);background:var(--surface);
+  border:1px solid var(--border-soft);display:flex;align-items:center;justify-content:center;
+}
+.gallery-thumb svg{width:60%;height:60%;opacity:0.85}
+
+.listing-info{flex:1;min-width:280px}
+.listing-info h1{font-family:var(--font-display);font-size:27px;font-weight:600;line-height:1.28;margin:0 0 12px}
+.price-row{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.price-big{font-family:var(--font-display);font-size:32px;font-weight:600}
+.condition-pill{
+  background:var(--surface-2);color:var(--text-dim);font-size:12.5px;font-weight:600;
+  padding:5px 11px;border-radius:999px;border:1px solid var(--border);
+}
+.action-row{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
+.action-row .btn-cta,.action-row .btn-ghost{padding:13px 22px;font-size:14.5px}
+
+.seller-card{
+  background:var(--surface);border:1px solid var(--border-soft);border-radius:var(--radius-lg);
+  padding:18px;margin-bottom:20px;
+}
+.seller-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(150deg,var(--surface-2),var(--surface));
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);font-size:16px}
+.seller-name-row{display:flex;align-items:center;gap:6px;font-weight:700;font-size:14.5px}
+.seller-sub{color:var(--text-faint);font-size:12.5px;margin-top:2px}
+.seller-stats{display:flex;gap:18px;padding-top:14px;border-top:1px solid var(--border-soft)}
+.seller-stat b{display:block;font-size:15px;font-family:var(--font-display)}
+.seller-stat span{font-size:11.5px;color:var(--text-faint)}
+
+.trust-box{
+  display:flex;gap:12px;background:rgba(159,232,112,0.06);border:1px solid rgba(159,232,112,0.22);
+  border-radius:var(--radius);padding:14px 16px;margin-bottom:20px;
+}
+.trust-box svg{width:20px;height:20px;color:var(--accent);flex-shrink:0;margin-top:1px}
+.trust-box p{margin:0;font-size:13px;color:var(--text-dim);line-height:1.55}
+.trust-box b{color:var(--text)}
+
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border-soft);margin-bottom:16px}
+.tab-btn{
+  padding:10px 4px;margin-right:20px;background:none;border:none;color:var(--text-faint);
+  font-size:14px;font-weight:600;border-bottom:2px solid transparent;
+}
+.tab-btn.active{color:var(--text);border-bottom-color:var(--accent)}
+.tab-panel{display:none;font-size:14px;color:var(--text-dim);line-height:1.7}
+.tab-panel.active{display:block}
+.delivery-list{list-style:none;padding:0;margin:0}
+.delivery-list li{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border-soft)}
+.delivery-list li svg{width:16px;height:16px;color:var(--accent);flex-shrink:0;margin-top:2px}
+.review{padding:14px 0;border-bottom:1px solid var(--border-soft)}
+.review:last-child{border-bottom:none}
+.review-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:13px;font-weight:700}
+.review p{margin:0;font-size:13.5px;color:var(--text-dim)}
+
+.section-block{margin-top:38px}
+.section-block h2{font-family:var(--font-display);font-size:21px;font-weight:600;margin:0 0 16px}
+
+/* ---------- seller profile ---------- */
+.seller-hero{
+  display:flex;gap:20px;align-items:center;padding:32px 0;border-bottom:1px solid var(--border-soft);flex-wrap:wrap;
+}
+.avatar-lg{width:76px;height:76px;border-radius:50%;background:linear-gradient(150deg,var(--surface-2),var(--surface));
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);font-size:26px;flex-shrink:0}
+.seller-hero h1{font-family:var(--font-display);font-size:26px;margin:0 0 6px;display:flex;align-items:center;gap:8px}
+.stat-strip{display:flex;gap:28px;margin-top:14px;flex-wrap:wrap}
+
+/* ---------- how it works ---------- */
+.steps-vert{display:flex;flex-direction:column;gap:0;margin-top:24px;max-width:640px}
+.step-item{display:flex;gap:18px;padding-bottom:30px;position:relative}
+.step-item:not(:last-child)::before{
+  content:'';position:absolute;left:19px;top:42px;bottom:0;width:1px;background:var(--border);
+}
+.step-num{
+  width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--border-deep,var(--border));
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:600;
+  color:var(--accent);flex-shrink:0;z-index:1;
+}
+.step-item h3{margin:0 0 6px;font-size:16px}
+.step-item p{margin:0;color:var(--text-dim);font-size:14px;line-height:1.6;max-width:480px}
+.faq-item{border-bottom:1px solid var(--border-soft);padding:16px 0}
+.faq-item summary{cursor:pointer;font-weight:600;font-size:14.5px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:'+';color:var(--text-faint);font-size:20px}
+.faq-item[open] summary::after{content:'–'}
+.faq-item p{color:var(--text-dim);font-size:13.5px;margin:10px 0 0;line-height:1.6}
+
+/* ---------- forms ---------- */
+.form-card{
+  background:var(--surface);border:1px solid var(--border-soft);border-radius:var(--radius-lg);
+  padding:28px;max-width:620px;
+}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text-dim)}
+.field input,.field select,.field textarea{
+  width:100%;background:var(--bg-elev);border:1px solid var(--border);color:var(--text);
+  padding:11px 13px;border-radius:var(--radius-sm);font-size:14px;outline:none;transition:.15s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent-deep)}
+.field textarea{resize:vertical;min-height:96px}
+.field-row{display:flex;gap:14px}
+.field-row .field{flex:1}
+.check-pill-row{display:flex;gap:10px;flex-wrap:wrap}
+.check-pill{
+  display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;border:1px solid var(--border);
+  background:var(--bg-elev);font-size:13px;color:var(--text-dim);cursor:pointer;
+}
+.check-pill input{accent-color:var(--accent)}
+.upload-box{
+  border:1.5px dashed var(--border);border-radius:var(--radius);padding:26px;text-align:center;color:var(--text-faint);
+  font-size:13px;
+}
+.upload-box svg{width:26px;height:26px;margin:0 auto 8px;color:var(--text-faint)}
+
+.mine-list{margin-top:30px}
+.mine-row{
+  display:flex;align-items:center;gap:14px;padding:12px 14px;background:var(--surface);
+  border:1px solid var(--border-soft);border-radius:var(--radius);margin-bottom:10px;
+}
+.mine-row-art{width:44px;height:44px;border-radius:8px;background:var(--bg-elev);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mine-row-art svg{width:26px;height:26px}
+.mine-row-title{font-size:13.5px;font-weight:600;flex:1}
+.mine-row-price{font-size:13.5px;color:var(--text-dim)}
+.del-x{background:none;border:none;color:var(--text-faint);width:26px;height:26px;border-radius:50%}
+.del-x:hover{color:var(--danger);background:rgba(232,116,107,0.1)}
+
+/* ---------- cart ---------- */
+.cart-row{
+  display:flex;align-items:center;gap:16px;padding:16px;background:var(--surface);
+  border:1px solid var(--border-soft);border-radius:var(--radius-lg);margin-bottom:12px;
+}
+.cart-art{width:64px;height:64px;border-radius:var(--radius-sm);background:var(--bg-elev);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cart-art svg{width:70%;height:70%}
+.cart-title{font-size:14px;font-weight:600;margin-bottom:4px}
+.cart-sub{font-size:12px;color:var(--text-faint)}
+.cart-summary{
+  background:var(--surface);border:1px solid var(--border-soft);border-radius:var(--radius-lg);padding:20px;
+  width:300px;flex-shrink:0;
+}
+.summary-row{display:flex;justify-content:space-between;font-size:13.5px;color:var(--text-dim);margin-bottom:10px}
+.summary-total{display:flex;justify-content:space-between;font-size:16px;font-weight:700;padding-top:12px;border-top:1px solid var(--border-soft);margin-bottom:16px}
+.cart-layout{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.cart-items{flex:1;min-width:280px}
+
+/* ---------- chat modal ---------- */
+.overlay{
+  position:fixed;inset:0;background:rgba(6,10,7,0.6);backdrop-filter:blur(3px);z-index:100;
+  display:flex;align-items:center;justify-content:center;padding:16px;
+}
+.chat-modal{
+  width:380px;max-width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);
+  display:flex;flex-direction:column;max-height:80vh;overflow:hidden;
+}
+.chat-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border-soft)}
+.chat-head b{font-size:14px}
+.chat-head span{font-size:11.5px;color:var(--accent)}
+.chat-close{margin-left:auto;background:none;border:none;color:var(--text-faint);width:28px;height:28px;border-radius:50%}
+.chat-close:hover{background:var(--surface-2);color:var(--text)}
+.chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;min-height:220px}
+.msg{max-width:78%;padding:9px 13px;border-radius:14px;font-size:13.5px;line-height:1.45}
+.msg.them{background:var(--surface-2);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--accent);color:var(--accent-contrast);align-self:flex-end;border-bottom-right-radius:4px;font-weight:600}
+.chat-input-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border-soft)}
+.chat-input-row input{flex:1;background:var(--bg-elev);border:1px solid var(--border);border-radius:999px;padding:10px 14px;color:var(--text);outline:none;font-size:13.5px}
+.chat-send{width:38px;height:38px;border-radius:50%;background:var(--accent);border:none;color:var(--accent-contrast);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-send svg{width:16px;height:16px}
+
+/* ---------- toast ---------- */
+#toast{
+  position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--surface-2);border:1px solid var(--border);color:var(--text);
+  padding:13px 20px;border-radius:999px;font-size:13.5px;font-weight:600;
+  display:flex;align-items:center;gap:8px;z-index:200;opacity:0;pointer-events:none;
+  transition:opacity .25s, transform .25s;box-shadow:0 8px 30px rgba(0,0,0,0.4);
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast svg{width:16px;height:16px;color:var(--accent)}
+
+footer{border-top:1px solid var(--border-soft);padding:44px 0 34px;margin-top:60px;color:var(--text-faint);font-size:13px}
+.footer-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.footer-col h4{color:var(--text-dim);font-size:12.5px;margin:0 0 12px;font-weight:700}
+.footer-col a{display:block;color:var(--text-faint);font-size:13px;margin-bottom:8px}
+.footer-col a:hover{color:var(--text-dim)}
+.footer-bottom{margin-top:30px;padding-top:20px;border-top:1px solid var(--border-soft);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media(max-width:900px){
+  .filters{display:none}
+  .search-bar{max-width:none}
+  .hero h1{font-size:32px}
+  .hero-art{display:none}
+}
+@media(max-width:640px){
+  .header-inner{padding:12px 16px;gap:12px}
+  .logo span{display:none}
+  .wrap{padding:0 16px}
+  .subnav-inner{padding:0 16px}
+  .nav-link.desktop-only{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo" onclick="showView('home');return false;">
+      <span class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 16.5 4 9.5C4 6 6.5 3 10 3C11.2 3 12 4 12 5.5C12 4 12.8 3 14 3C17.5 3 20 6 20 9.5C20 16.5 12 21 12 21Z" fill="var(--accent-contrast)"/></svg>
+      </span>
+      <span>ROSTOK</span>
+    </a>
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="searchInput" type="text" placeholder="Найти растение, сорт или продавца" oninput="applyFilters()">
+    </div>
+    <a class="nav-link desktop-only" href="#" onclick="showView('how');return false;">Как это работает</a>
+    <div class="nav-icons">
+      <a class="icon-btn" href="#" onclick="showView('favorites');return false;" title="Избранное">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 8.6c0 4.8-8.8 10.4-8.8 10.4S3.2 13.4 3.2 8.6a5 5 0 0 1 9-3 5 5 0 0 1 8.6 3z"/></svg>
+        <span class="badge-count hide" id="favCount">0</span>
+      </a>
+      <a class="icon-btn" href="#" onclick="showView('cart');return false;" title="Корзина">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M2 3h2l2.6 12.6a2 2 0 0 0 2 1.6h8a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+        <span class="badge-count hide" id="cartCount">0</span>
+      </a>
+    </div>
+    <button class="btn-cta" onclick="showView('new');">Разместить объявление</button>
+  </div>
+  <nav class="subnav">
+    <div class="subnav-inner">
+      <a class="nav-link active" id="nav-home" href="#" onclick="showView('home');return false;">Каталог</a>
+      <a class="nav-link" id="nav-new" href="#" onclick="showView('new');return false;">Мои объявления</a>
+      <a class="nav-link" id="nav-how" href="#" onclick="showView('how');return false;">Как это работает</a>
+      <a class="nav-link" id="nav-fav" href="#" onclick="showView('favorites');return false;">Избранное</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+<!-- ================= HOME / CATALOG ================= -->
+<section id="view-home">
+  <div class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-text">
+        <p class="eyebrow-plain">Маркетплейс растений от частных коллекционеров</p>
+        <h1>Найдите растение у того, кто его вырастил</h1>
+        <p>Редкие сорта, черенки и семена — напрямую от коллекционеров и любителей по всей России и СНГ, без магазинов-посредников.</p>
+        <div class="hero-stats">
+          <div class="hero-stat"><b id="statListings">—</b><span>объявлений</span></div>
+          <div class="hero-stat"><b>1 240</b><span>коллекционеров</span></div>
+          <div class="hero-stat"><b>96%</b><span>сделок без споров</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none">
+          <ellipse cx="100" cy="178" rx="58" ry="8" fill="#000" opacity="0.25"/>
+          <path d="M78 150h44l6 34H72l6-34z" fill="#1C2A21" stroke="#2C3F32"/>
+          <path d="M100 150C100 150 76 96 100 58C124 96 100 150 100 150Z" fill="#4E9E4B"/>
+          <path d="M100 150C100 150 60 118 44 78C88 82 100 150 100 150Z" fill="#7ED957"/>
+          <path d="M100 150C100 150 140 118 156 78C112 82 100 150 100 150Z" fill="#9FE870"/>
+          <path d="M100 150C100 150 88 100 100 60" stroke="#2C3F32" stroke-width="2"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="chip-row" id="chipRow"></div>
+
+    <div class="catalog-layout">
+      <aside class="filters">
+        <h3>Фильтры</h3>
+        <div class="filter-group">
+          <span class="filter-label">Способ передачи</span>
+          <label class="check-row"><input type="checkbox" value="pickup" class="f-delivery" onchange="applyFilters()"> Самовывоз</label>
+          <label class="check-row"><input type="checkbox" value="ship" class="f-delivery" onchange="applyFilters()"> Пересылка</label>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Состояние</span>
+          <label class="check-row"><input type="checkbox" value="Укоренено" class="f-condition" onchange="applyFilters()"> Укоренено</label>
+          <label class="check-row"><input type="checkbox" value="Черенок" class="f-condition" onchange="applyFilters()"> Черенок</label>
+          <label class="check-row"><input type="checkbox" value="Семена" class="f-condition" onchange="applyFilters()"> Семена</label>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Цена, ₽</span>
+          <div class="price-range">
+            <input type="number" placeholder="от" id="priceMin" oninput="applyFilters()">
+            <input type="number" placeholder="до" id="priceMax" oninput="applyFilters()">
+          </div>
+        </div>
+        <div class="filter-group">
+          <label class="check-row"><input type="checkbox" id="f-verified" onchange="applyFilters()"> Только проверенные продавцы</label>
+        </div>
+      </aside>
+
+      <div class="catalog-main">
+        <div class="catalog-top">
+          <span class="result-count" id="resultCount"></span>
+          <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+            <option value="new">Сначала новые</option>
+            <option value="price-asc">Сначала дешевле</option>
+            <option value="price-desc">Сначала дороже</option>
+            <option value="rating">По рейтингу продавца</option>
+          </select>
+        </div>
+        <div class="grid" id="catalogGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LISTING DETAIL ================= -->
+<section id="view-listing" class="hide">
+  <div class="wrap">
+    <a class="back-link" href="#" onclick="showView('home');return false;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      Назад в каталог
+    </a>
+    <div class="listing-layout" id="listingContent"></div>
+
+    <div class="section-block">
+      <h2>Похожие объявления</h2>
+      <div class="grid" id="relatedGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SELLER PROFILE ================= -->
+<section id="view-seller" class="hide">
+  <div class="wrap">
+    <a class="back-link" href="#" onclick="showView('home');return false;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      Назад
+    </a>
+    <div id="sellerContent"></div>
+  </div>
+</section>
+
+<!-- ================= FAVORITES ================= -->
+<section id="view-favorites" class="hide">
+  <div class="wrap" style="padding-top:28px">
+    <h2 style="font-family:var(--font-display);font-size:24px;font-weight:600;margin-bottom:18px">Избранное</h2>
+    <div class="grid" id="favGrid"></div>
+  </div>
+</section>
+
+<!-- ================= CART ================= -->
+<section id="view-cart" class="hide">
+  <div class="wrap" style="padding-top:28px">
+    <h2 style="font-family:var(--font-display);font-size:24px;font-weight:600;margin-bottom:18px">Корзина</h2>
+    <div class="cart-layout" id="cartLayout"></div>
+  </div>
+</section>
+
+<!-- ================= NEW LISTING ================= -->
+<section id="view-new" class="hide">
+  <div class="wrap" style="padding-top:28px">
+    <h2 style="font-family:var(--font-display);font-size:24px;font-weight:600;margin-bottom:6px">Разместить объявление</h2>
+    <p style="color:var(--text-dim);font-size:14px;margin-bottom:26px;max-width:520px">Заполните карточку растения — она сразу появится в каталоге. Это демо-версия: фотографии заменены иллюстрацией по категории.</p>
+
+    <form class="form-card" onsubmit="submitListing(event)">
+      <div class="field">
+        <label>Название</label>
+        <input type="text" id="f-title" placeholder="Напр. Филодендрон Пинк Принцесс, черенок" required>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Категория</label>
+          <select id="f-category" required>
+            <option value="komnatnye">Комнатные</option>
+            <option value="sukkulenty">Суккуленты</option>
+            <option value="kaktusy">Кактусы</option>
+            <option value="ekzotika">Экзотика</option>
+            <option value="cherenki">Черенки</option>
+            <option value="semena">Семена</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Состояние</label>
+          <select id="f-condition">
+            <option>Укоренено</option>
+            <option>Черенок</option>
+            <option>Семена</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Цена, ₽</label>
+          <input type="number" id="f-price" placeholder="1500" required>
+        </div>
+        <div class="field">
+          <label>Город</label>
+          <input type="text" id="f-city" placeholder="Москва" required>
+        </div>
+      </div>
+      <div class="field">
+        <label>Способ передачи</label>
+        <div class="check-pill-row">
+          <label class="check-pill"><input type="checkbox" id="f-pickup" checked> Самовывоз</label>
+          <label class="check-pill"><input type="checkbox" id="f-ship" checked> Пересылка</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Описание</label>
+        <textarea id="f-desc" placeholder="Возраст, размер, особенности ухода, почему растение особенное"></textarea>
+      </div>
+      <div class="field">
+        <label>Фотографии</label>
+        <div class="upload-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-4 4-3-3-6 6"/></svg>
+          Загрузка фото — в полной версии. Сейчас карточке присваивается иллюстрация по категории.
+        </div>
+      </div>
+      <button type="submit" class="btn-cta btn-block">Опубликовать объявление</button>
+    </form>
+
+    <div class="mine-list" id="mineList"></div>
+  </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="view-how" class="hide">
+  <div class="wrap" style="padding-top:30px;max-width:760px">
+    <h2 style="font-family:var(--font-display);font-size:28px;font-weight:600;margin-bottom:8px">Как устроена сделка</h2>
+    <p style="color:var(--text-dim);font-size:15px;line-height:1.6;margin-bottom:10px">ROSTOK — площадка для частных коллекционеров, а не магазин. Мы не требуем от продавцов ИП и не отправляем растения сами: договорённость о доставке — между вами и продавцом, а площадка отвечает за то, чтобы деньги не терялись и обе стороны были на связи.</p>
+
+    <div class="steps-vert">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div><h3>Выбираете растение и оплачиваете</h3><p>Деньги списываются с покупателя, но не переводятся продавцу сразу — они удерживаются площадкой до подтверждения получения.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div><h3>Продавец упаковывает и присылает фото упаковки</h3><p>Для пересылки живых растений это обязательный шаг — фото фиксирует состояние растения на момент отправки и защищает продавца от необоснованных претензий.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div><h3>Покупатель подтверждает получение</h3><p>Если растение доехало в оговорённом состоянии — покупатель подтверждает получение в чате, и тогда деньги переводятся продавцу.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div><h3>Если что-то не так — открывается спор</h3><p>При недоезде растения живым в течение оговорённого срока покупатель может открыть спор — решение принимается по фото упаковки и переписке в чате, а не по факту «передумал».</p></div>
+      </div>
+    </div>
+
+    <h2 style="font-family:var(--font-display);font-size:22px;font-weight:600;margin:44px 0 6px">Частые вопросы</h2>
+    <details class="faq-item" open>
+      <summary>Нужно ли продавцу оформлять ИП или самозанятость?</summary>
+      <p>Нет — для разовых и любительских продаж это не требуется. Если продавец выращивает растения на постоянной основе и хочет продавать много и регулярно, ему стоит задуматься об этом самостоятельно — площадка не берёт эту обязанность на себя.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Что если растение приехало погибшим?</summary>
+      <p>Если фото упаковки подтверждает, что растение было живым и упаковано с амортизацией, а проблема — в задержке доставки, спор решается в пользу покупателя частичным возвратом. Итоговое решение всегда смотрит на фото упаковки и переписку, а не только на слова одной стороны.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Можно ли забрать растение лично?</summary>
+      <p>Да, если продавец указал «Самовывоз» — тогда оплата подтверждается при личной встрече, без пересылки.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Что значит бейдж «Проверенный продавец»?</summary>
+      <p>Продавец подтвердил номер телефона, совершил не менее 10 сделок без споров и держит средний рейтинг не ниже 4.7.</p>
+    </details>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>ROSTOK</h4>
+        <a href="#" onclick="showView('how');return false;">Как это работает</a>
+        <a href="#" onclick="showView('new');return false;">Разместить объявление</a>
+      </div>
+      <div class="footer-col">
+        <h4>Категории</h4>
+        <a href="#" onclick="selectCategory('komnatnye');return false;">Комнатные</a>
+        <a href="#" onclick="selectCategory('sukkulenty');return false;">Суккуленты</a>
+        <a href="#" onclick="selectCategory('ekzotika');return false;">Экзотика</a>
+      </div>
+      <div class="footer-col">
+        <h4>Безопасность</h4>
+        <a href="#" onclick="showView('how');return false;">Защита сделки</a>
+        <a href="#">Разрешение споров</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ROSTOK · демонстрационный прототип</span>
+      <span>Дизайн интерфейса и элементов управления — по мотивам Playerok</span>
+    </div>
+  </div>
+</footer>
+
+<div id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span id="toastText"></span></div>
+
+<script>
+/* ============================= DATA ============================= */
+const CATEGORIES = [
+  {id:'all', label:'Все категории'},
+  {id:'komnatnye', label:'Комнатные'},
+  {id:'sukkulenty', label:'Суккуленты'},
+  {id:'kaktusy', label:'Кактусы'},
+  {id:'ekzotika', label:'Экзотика'},
+  {id:'cherenki', label:'Черенки'},
+  {id:'semena', label:'Семена'},
+];
+
+const PLANTS = [
+  {id:'p1', title:'Монстера Альборесценс, взрослый лист', category:'komnatnye', price:12500, city:'Москва', seller:'Ирина Котова', rating:4.9, deals:132, verified:true, delivery:['pickup','ship'], condition:'Укоренено', tag:'Коллекционная', response:'~15 мин', desc:'Взрослое растение с расщеплённым листом, форма альборесценс устойчивая, без реверсии. Возраст 2 года, высота 40 см с опорой.'},
+  {id:'p2', title:'Эхеверия Лола, розетка', category:'sukkulenty', price:1200, city:'Санкт-Петербург', seller:'Дмитрий Рыков', rating:4.8, deals:87, verified:true, delivery:['pickup','ship'], condition:'Укоренено', tag:'Хит продаж', response:'~1 час', desc:'Плотная сизая розетка диаметром 7 см, деток пока не давала. Выращена без пестицидов, привыкла к южному окну.'},
+  {id:'p3', title:'Астрофитум козерогий, 3 года', category:'kaktusy', price:2800, city:'Казань', seller:'Марат Юсупов', rating:5.0, deals:41, verified:true, delivery:['ship'], condition:'Укоренено', tag:'Редкий', response:'~2 часа', desc:'Опушение плотное, форма ребристая ровная. Полив зимой — раз в месяц, свет — прямой южный.'},
+  {id:'p4', title:'Венерина мухоловка, крупная форма', category:'ekzotika', price:1900, city:'Москва', seller:'Ирина Котова', rating:4.9, deals:132, verified:true, delivery:['pickup'], condition:'Укоренено', tag:'Коллекционная', response:'~15 мин', desc:'Сорт с ловушками до 4 см. Продаётся только самовывозом — плохо переносит пересылку зимой.'},
+  {id:'p5', title:'Черенок фикуса Абиджан, укоренённый', category:'cherenki', price:650, city:'Новосибирск', seller:'Анна Белова', rating:4.6, deals:23, verified:false, delivery:['ship'], condition:'Черенок', tag:null, response:'~4 часа', desc:'Черенок с двумя листами, корни 3–4 см, готов к пересадке в грунт.'},
+  {id:'p6', title:'Семена стрелиции королевской, 5 шт', category:'semena', price:450, city:'Краснодар', seller:'Олег Панин', rating:4.7, deals:64, verified:true, delivery:['ship'], condition:'Семена', tag:null, response:'~3 часа', desc:'Свежий сбор этого сезона, всхожесть в среднем 70%. В комплекте инструкция по скарификации.'},
+  {id:'p7', title:'Хавортия Купера вариегатная', category:'sukkulenty', price:2200, city:'Екатеринбург', seller:'Дмитрий Рыков', rating:4.8, deals:87, verified:true, delivery:['pickup','ship'], condition:'Укоренено', tag:'Редкий', response:'~1 час', desc:'Устойчивая вариегация, окно листьев прозрачное. Растёт медленно, для тени не подходит.'},
+  {id:'p8', title:'Филодендрон Пинк Принцесс, укоренённый черенок', category:'komnatnye', price:3400, city:'Москва', seller:'Светлана Орлова', rating:4.5, deals:19, verified:false, delivery:['ship'], condition:'Черенок', tag:'Хит продаж', response:'~6 часов', desc:'Розовая пестролистность стабильная на двух последних листах. Черенок с двумя узлами, корни есть.'},
+  {id:'p9', title:'Опунция микродазис, "медвежья лапка"', category:'kaktusy', price:900, city:'Ростов-на-Дону', seller:'Марат Юсупов', rating:5.0, deals:41, verified:true, delivery:['pickup','ship'], condition:'Укоренено', tag:null, response:'~2 часа', desc:'Компактная форма, глохидии светлые. Хорошо переносит пересылку в холодное время года.'},
+  {id:'p10', title:'Дионея красная форма, розетка', category:'ekzotika', price:1600, city:'Санкт-Петербург', seller:'Анна Белова', rating:4.6, deals:23, verified:false, delivery:['ship'], condition:'Укоренено', tag:'Редкий', response:'~4 часа', desc:'Насыщенный красный цвет ловушек на солнце. Отправляю во влажной упаковке с торфом.'},
+  {id:'p11', title:'Семена монстеры деликатесной, 3 шт', category:'semena', price:800, city:'Москва', seller:'Олег Панин', rating:4.7, deals:64, verified:true, delivery:['ship'], condition:'Семена', tag:null, response:'~3 часа', desc:'Импортные семена, хранились в холодильнике. Прилагаю инструкцию по проращиванию во влажном мхе.'},
+  {id:'p12', title:'Каланхоэ Тирсифлора, укоренённое', category:'sukkulenty', price:700, city:'Воронеж', seller:'Светлана Орлова', rating:4.5, deals:19, verified:false, delivery:['pickup','ship'], condition:'Укоренено', tag:null, response:'~6 часов', desc:'Розетка с характерным сизым налётом «мелового карандаша». Высота 15 см.'},
+];
+
+/* ---- SVG icon per category, tinted per-plant for variety ---- */
+function plantSVG(cat, tint){
+  const shapes = {
+    komnatnye: `<path d="M60 96C60 96 44 60 60 30C76 60 60 96 60 96Z" fill="${tint[0]}"/><path d="M60 96C60 96 32 74 22 46C54 50 60 96 60 96Z" fill="${tint[1]}"/><path d="M60 96C60 96 88 74 98 46C66 50 60 96 60 96Z" fill="${tint[2]}"/><rect x="46" y="96" width="28" height="16" rx="3" fill="#1C2A21" stroke="#2C3F32"/>`,
+    sukkulenty: `<g>${[0,1,2,3,4,5].map(i=>{const a=i*60;const x=60+Math.cos(a*Math.PI/180)*22,y=76+Math.sin(a*Math.PI/180)*14;return `<ellipse cx="${x}" cy="${y}" rx="16" ry="10" fill="${tint[i%3]}" transform="rotate(${a} ${x} ${y})"/>`}).join('')}<circle cx="60" cy="76" r="10" fill="${tint[0]}"/><rect x="44" y="98" width="32" height="14" rx="3" fill="#1C2A21" stroke="#2C3F32"/></g>`,
+    kaktusy: `<rect x="48" y="40" width="24" height="60" rx="12" fill="${tint[0]}"/><rect x="24" y="58" width="18" height="34" rx="9" fill="${tint[1]}"/><rect x="78" y="50" width="18" height="42" rx="9" fill="${tint[2]}"/><rect x="42" y="98" width="36" height="14" rx="3" fill="#1C2A21" stroke="#2C3F32"/>`,
+    ekzotika: `<path d="M60 92C60 92 40 78 38 56C56 60 60 92 60 92Z" fill="${tint[1]}"/><path d="M60 92C60 92 80 78 82 56C64 60 60 92 60 92Z" fill="${tint[2]}"/><circle cx="38" cy="55" r="4" fill="#0C120E"/><circle cx="82" cy="55" r="4" fill="#0C120E"/><rect x="46" y="92" width="28" height="16" rx="3" fill="#1C2A21" stroke="#2C3F32"/>`,
+    cherenki: `<path d="M60 100V38" stroke="${tint[0]}" stroke-width="5" stroke-linecap="round"/><ellipse cx="60" cy="34" rx="14" ry="9" fill="${tint[1]}" transform="rotate(-15 60 34)"/><ellipse cx="60" cy="50" rx="12" ry="8" fill="${tint[2]}" transform="rotate(20 60 50)"/><rect x="46" y="98" width="28" height="14" rx="3" fill="#1C2A21" stroke="#2C3F32"/>`,
+    semena: `<path d="M40 66C40 52 48 44 60 44C72 44 80 52 80 66C80 80 60 96 60 96C60 96 40 80 40 66Z" fill="${tint[0]}" stroke="#1C2A21"/>${[0,1,2,3].map(i=>`<circle cx="${50+i*7}" cy="${64+((i%2)*8)}" r="3.4" fill="${tint[2]}"/>`).join('')}`,
+  };
+  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">${shapes[cat]||shapes.komnatnye}</svg>`;
+}
+const TINT_SETS = [
+  ['#4E9E4B','#7ED957','#9FE870'],
+  ['#3E8C6B','#5FBF57','#B6F98C'],
+  ['#5C8A3E','#8FD65E','#C7F58E'],
+];
+function tintFor(id){
+  let h=0; for(const c of id) h=(h*31+c.charCodeAt(0))%TINT_SETS.length;
+  return TINT_SETS[h];
+}
+
+/* ============================= STATE ============================= */
+const store = {
+  get(key, fallback){ try{ const v = localStorage.getItem(key); return v? JSON.parse(v): fallback; }catch(e){ return fallback; } },
+  set(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
+};
+let favorites = store.get('rostok_favorites', []);
+let cart = store.get('rostok_cart', []);
+let myListings = store.get('rostok_mylistings', []);
+let currentListingId = null;
+let chatSellerName = '';
+
+function allPlants(){ return [...myListings, ...PLANTS]; }
+function findPlant(id){ return allPlants().find(p=>p.id===id); }
+
+/* ============================= NAV ============================= */
+function showView(name){
+  document.querySelectorAll('main > section').forEach(s=>s.classList.add('hide'));
+  document.getElementById('view-'+name).classList.remove('hide');
+  document.querySelectorAll('.subnav .nav-link').forEach(a=>a.classList.remove('active'));
+  const map = {home:'nav-home', new:'nav-new', how:'nav-how', favorites:'nav-fav'};
+  if(map[name]) document.getElementById(map[name]).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(name==='favorites') renderFavorites();
+  if(name==='cart') renderCart();
+  if(name==='new') renderMineList();
+}
+
+/* ============================= CATALOG ============================= */
+let activeCategory = 'all';
+function renderChips(){
+  const row = document.getElementById('chipRow');
+  row.innerHTML = CATEGORIES.map(c=>`
+    <button class="chip ${c.id===activeCategory?'active':''}" onclick="selectCategory('${c.id}')">${c.label}</button>
+  `).join('');
+}
+function selectCategory(id){
+  activeCategory = id;
+  showView('home');
+  renderChips();
+  applyFilters();
+}
+
+function cardHTML(p){
+  const tint = tintFor(p.id);
+  const isFav = favorites.includes(p.id);
+  const initials = p.seller.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  return `
+  <div class="card" onclick="openListing('${p.id}')">
+    <div class="card-art" style="background:radial-gradient(circle at 50% 30%, ${tint[2]}22, transparent 65%), var(--bg-elev)">
+      ${p.tag? `<span class="tag-pill ${p.mine?'mine':''}">${p.tag}</span>` : (p.mine? `<span class="tag-pill mine">Ваше объявление</span>` : '')}
+      <button class="fav-btn ${isFav?'active':''}" onclick="event.stopPropagation();toggleFavorite('${p.id}')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 8.6c0 4.8-8.8 10.4-8.8 10.4S3.2 13.4 3.2 8.6a5 5 0 0 1 9-3 5 5 0 0 1 8.6 3z"/></svg>
+      </button>
+      ${plantSVG(p.category, tint)}
+    </div>
+    <div class="card-body">
+      <p class="card-title">${p.title}</p>
+      <div class="card-price">${p.price.toLocaleString('ru-RU')} ₽</div>
+      <div class="card-meta"><span>${p.condition}</span><span class="dot"></span><span>${p.city}</span></div>
+      <div class="seller-row">
+        <span class="avatar-mini">${initials}</span>
+        <span>${p.seller}</span>
+        ${p.verified? `<svg class="verified-mark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 2.1 3.1-.6.9 3 2.8 1.4-1 3 1 3-2.8 1.4-.9 3-3.1-.6L12 22l-2.4-2.1-3.1.6-.9-3-2.8-1.4 1-3-1-3 2.8-1.4.9-3 3.1.6L12 2z"/></svg>` : ''}
+        <span class="star">★ ${p.rating}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function currentFilterSet(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const deliveries = [...document.querySelectorAll('.f-delivery:checked')].map(i=>i.value);
+  const conditions = [...document.querySelectorAll('.f-condition:checked')].map(i=>i.value);
+  const min = parseFloat(document.getElementById('priceMin')?.value) || 0;
+  const max = parseFloat(document.getElementById('priceMax')?.value) || Infinity;
+  const verifiedOnly = document.getElementById('f-verified')?.checked;
+  const sort = document.getElementById('sortSelect')?.value || 'new';
+  return {q, deliveries, conditions, min, max, verifiedOnly, sort};
+}
+
+function applyFilters(){
+  const f = currentFilterSet();
+  let list = allPlants().filter(p=>{
+    if(activeCategory!=='all' && p.category!==activeCategory) return false;
+    if(f.q && !(p.title.toLowerCase().includes(f.q) || p.seller.toLowerCase().includes(f.q))) return false;
+    if(f.deliveries.length && !f.deliveries.some(d=>p.delivery.includes(d))) return false;
+    if(f.conditions.length && !f.conditions.includes(p.condition)) return false;
+    if(p.price < f.min || p.price > f.max) return false;
+    if(f.verifiedOnly && !p.verified) return false;
+    return true;
+  });
+  if(f.sort==='price-asc') list.sort((a,b)=>a.price-b.price);
+  else if(f.sort==='price-desc') list.sort((a,b)=>b.price-a.price);
+  else if(f.sort==='rating') list.sort((a,b)=>b.rating-a.rating);
+
+  const grid = document.getElementById('catalogGrid');
+  document.getElementById('resultCount').textContent = list.length + ' объявлени' + pluralRu(list.length,'е','я','й');
+  if(!list.length){
+    grid.innerHTML = '';
+    grid.parentElement.insertAdjacentHTML('beforeend','');
+  }
+  grid.innerHTML = list.length? list.map(cardHTML).join('') : `
+    <div class="empty-state" style="grid-column:1/-1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <h4>Ничего не нашлось</h4>
+      <p>Попробуйте изменить фильтры или категорию</p>
+    </div>`;
+  document.getElementById('statListings').textContent = allPlants().length;
+  updateBadges();
+}
+function pluralRu(n, one, few, many){
+  const mod10=n%10, mod100=n%100;
+  if(mod10===1 && mod100!==11) return one;
+  if(mod10>=2 && mod10<=4 && !(mod100>=12&&mod100<=14)) return few;
+  return many;
+}
+
+/* ============================= LISTING DETAIL ============================= */
+function openListing(id){
+  currentListingId = id;
+  const p = findPlant(id);
+  if(!p) return;
+  const tint = tintFor(p.id);
+  const initials = p.seller.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  const deliveryLabels = {pickup:'Самовывоз', ship:'Пересылка транспортной компанией'};
+
+  document.getElementById('listingContent').innerHTML = `
+    <div class="gallery">
+      <div class="gallery-main" style="background:radial-gradient(circle at 50% 30%, ${tint[2]}22, transparent 65%), var(--bg-elev)">${plantSVG(p.category, tint)}</div>
+      <div class="gallery-thumbs">
+        ${[0,1,2].map(()=>`<div class="gallery-thumb">${plantSVG(p.category, tint)}</div>`).join('')}
+      </div>
+    </div>
+    <div class="listing-info">
+      <h1>${p.title}</h1>
+      <div class="price-row">
+        <span class="price-big">${p.price.toLocaleString('ru-RU')} ₽</span>
+        <span class="condition-pill">${p.condition}</span>
+      </div>
+      <div class="action-row">
+        <button class="btn-cta" onclick="addToCart('${p.id}')">Добавить в корзину</button>
+        <button class="btn-ghost" onclick="openChat('${p.seller}')">Написать продавцу</button>
+        <button class="icon-btn ${favorites.includes(p.id)?'active':''}" style="width:46px;height:46px" onclick="toggleFavorite('${p.id}');openListing('${p.id}')">
+          <svg viewBox="0 0 24 24" fill="${favorites.includes(p.id)?'var(--accent)':'none'}" stroke="currentColor" stroke-width="2"><path d="M20.8 8.6c0 4.8-8.8 10.4-8.8 10.4S3.2 13.4 3.2 8.6a5 5 0 0 1 9-3 5 5 0 0 1 8.6 3z"/></svg>
+        </button>
+      </div>
+
+      <div class="trust-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/></svg>
+        <p><b>Деньги под защитой площадки.</b> Оплата переводится продавцу только после того, как вы подтвердите получение растения живым. Подробнее — на странице «Как это работает».</p>
+      </div>
+
+      <div class="seller-card" onclick="openSeller('${p.seller}')" style="cursor:pointer">
+        <div class="seller-top">
+          <span class="avatar">${initials}</span>
+          <div style="flex:1">
+            <div class="seller-name-row">${p.seller} ${p.verified? `<svg class="verified-mark" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 2.1 3.1-.6.9 3 2.8 1.4-1 3 1 3-2.8 1.4-.9 3-3.1-.6L12 22l-2.4-2.1-3.1.6-.9-3-2.8-1.4 1-3-1-3 2.8-1.4.9-3 3.1.6L12 2z"/></svg>`:''}</div>
+            <div class="seller-sub">${p.city} · отвечает за ${p.response}</div>
+          </div>
+        </div>
+        <div class="seller-stats">
+          <div class="seller-stat"><b>★ ${p.rating}</b><span>рейтинг</span></div>
+          <div class="seller-stat"><b>${p.deals}</b><span>сделок</span></div>
+          <div class="seller-stat"><b>${p.verified?'Да':'Нет'}</b><span>проверен</span></div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(event,'desc')">Описание</button>
+        <button class="tab-btn" onclick="switchTab(event,'delivery')">Уход и доставка</button>
+        <button class="tab-btn" onclick="switchTab(event,'reviews')">Отзывы</button>
+      </div>
+      <div class="tab-panel active" id="tab-desc"><p>${p.desc}</p></div>
+      <div class="tab-panel" id="tab-delivery">
+        <ul class="delivery-list">
+          ${p.delivery.map(d=>`<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span>${deliveryLabels[d]}</span></li>`).join('')}
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span>При пересылке продавец обязан прислать фото упаковки перед отправкой</span></li>
+        </ul>
+      </div>
+      <div class="tab-panel" id="tab-reviews">
+        <div class="review"><div class="review-top">Мария П. <span class="star">★★★★★</span></div><p>Растение доехало в отличном состоянии, продавец был на связи всю дорогу.</p></div>
+        <div class="review"><div class="review-top">Кирилл С. <span class="star">★★★★★</span></div><p>Уже вторая покупка у этого продавца, всё как на фото.</p></div>
+      </div>
+    </div>
+  `;
+  const related = allPlants().filter(x=>x.category===p.category && x.id!==p.id).slice(0,3);
+  document.getElementById('relatedGrid').innerHTML = related.map(cardHTML).join('') || `<p style="color:var(--text-faint)">Похожих объявлений пока нет</p>`;
+  showView('listing');
+}
+function switchTab(ev, name){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  ev.target.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+/* ============================= SELLER PROFILE ============================= */
+function openSeller(name){
+  const items = allPlants().filter(p=>p.seller===name);
+  if(!items.length) return;
+  const p = items[0];
+  const initials = name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  document.getElementById('sellerContent').innerHTML = `
+    <div class="seller-hero">
+      <span class="avatar-lg">${initials}</span>
+      <div>
+        <h1>${name} ${p.verified? `<svg class="verified-mark" viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M12 2l2.4 2.1 3.1-.6.9 3 2.8 1.4-1 3 1 3-2.8 1.4-.9 3-3.1-.6L12 22l-2.4-2.1-3.1.6-.9-3-2.8-1.4 1-3-1-3 2.8-1.4.9-3 3.1.6L12 2z"/></svg>`:''}</h1>
+        <div class="seller-sub" style="font-size:14px">${p.city} · обычно отвечает за ${p.response}</div>
+        <div class="stat-strip">
+          <div class="seller-stat"><b>★ ${p.rating}</b><span>рейтинг</span></div>
+          <div class="seller-stat"><b>${p.deals}</b><span>сделок</span></div>
+          <div class="seller-stat"><b>${items.length}</b><span>объявлений сейчас</span></div>
+        </div>
+      </div>
+      <button class="btn-cta" style="margin-left:auto" onclick="openChat('${name}')">Написать</button>
+    </div>
+    <div class="section-block">
+      <h2>Объявления продавца</h2>
+      <div class="grid">${items.map(cardHTML).join('')}</div>
+    </div>
+  `;
+  showView('seller');
+}
+
+/* ============================= FAVORITES ============================= */
+function toggleFavorite(id){
+  favorites = favorites.includes(id)? favorites.filter(f=>f!==id) : [...favorites, id];
+  store.set('rostok_favorites', favorites);
+  applyFilters();
+  updateBadges();
+  showToast(favorites.includes(id)? 'Добавлено в избранное' : 'Удалено из избранного');
+}
+function renderFavorites(){
+  const items = favorites.map(findPlant).filter(Boolean);
+  document.getElementById('favGrid').innerHTML = items.length? items.map(cardHTML).join('') : `
+    <div class="empty-state" style="grid-column:1/-1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.8 8.6c0 4.8-8.8 10.4-8.8 10.4S3.2 13.4 3.2 8.6a5 5 0 0 1 9-3 5 5 0 0 1 8.6 3z"/></svg>
+      <h4>Пока пусто</h4><p>Нажмите на сердечко у объявления, чтобы сохранить его сюда</p>
+    </div>`;
+}
+
+/* ============================= CART ============================= */
+function addToCart(id){
+  const existing = cart.find(c=>c.id===id);
+  if(existing) existing.qty += 1; else cart.push({id, qty:1});
+  store.set('rostok_cart', cart);
+  updateBadges();
+  showToast('Добавлено в корзину');
+}
+function removeFromCart(id){
+  cart = cart.filter(c=>c.id!==id);
+  store.set('rostok_cart', cart);
+  renderCart(); updateBadges();
+}
+function renderCart(){
+  const layout = document.getElementById('cartLayout');
+  const items = cart.map(c=>({...c, plant:findPlant(c.id)})).filter(c=>c.plant);
+  if(!items.length){
+    layout.innerHTML = `<div class="empty-state" style="width:100%">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M2 3h2l2.6 12.6a2 2 0 0 0 2 1.6h8a2 2 0 0 0 2-1.6L21 7H6"/></svg>
+      <h4>Корзина пуста</h4><p>Добавьте растения из каталога</p>
+    </div>`;
+    return;
+  }
+  const total = items.reduce((s,c)=>s+c.plant.price*c.qty,0);
+  layout.innerHTML = `
+    <div class="cart-items">
+      ${items.map(c=>{
+        const tint = tintFor(c.plant.id);
+        return `<div class="cart-row">
+          <div class="cart-art">${plantSVG(c.plant.category, tint)}</div>
+          <div style="flex:1">
+            <div class="cart-title">${c.plant.title}</div>
+            <div class="cart-sub">${c.plant.seller} · ${c.plant.city} · ×${c.qty}</div>
+          </div>
+          <div style="font-weight:700">${(c.plant.price*c.qty).toLocaleString('ru-RU')} ₽</div>
+          <button class="del-x" onclick="removeFromCart('${c.plant.id}')">✕</button>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="cart-summary">
+      <div class="summary-row"><span>Товары (${items.length})</span><span>${total.toLocaleString('ru-RU')} ₽</span></div>
+      <div class="summary-row"><span>Защита сделки</span><span>0 ₽</span></div>
+      <div class="summary-total"><span>Итого</span><span>${total.toLocaleString('ru-RU')} ₽</span></div>
+      <button class="btn-cta btn-block" onclick="checkout()">Оформить заказ</button>
+    </div>
+  `;
+}
+function checkout(){
+  showToast('Это демо — реальная оплата здесь не подключена');
+}
+
+/* ============================= NEW LISTING ============================= */
+function submitListing(ev){
+  ev.preventDefault();
+  const id = 'mine_' + Date.now();
+  const category = document.getElementById('f-category').value;
+  const delivery = [];
+  if(document.getElementById('f-pickup').checked) delivery.push('pickup');
+  if(document.getElementById('f-ship').checked) delivery.push('ship');
+  const plant = {
+    id, category,
+    title: document.getElementById('f-title').value || 'Без названия',
+    price: parseInt(document.getElementById('f-price').value) || 0,
+    city: document.getElementById('f-city').value || '—',
+    seller: 'Вы', rating:5.0, deals:0, verified:false,
+    delivery: delivery.length? delivery: ['pickup'],
+    condition: document.getElementById('f-condition').value,
+    desc: document.getElementById('f-desc').value || 'Описание не указано.',
+    response:'обычно быстро', mine:true,
+  };
+  myListings = [plant, ...myListings];
+  store.set('rostok_mylistings', myListings);
+  ev.target.reset();
+  renderMineList();
+  applyFilters();
+  showToast('Объявление опубликовано');
+}
+function renderMineList(){
+  const box = document.getElementById('mineList');
+  if(!myListings.length){ box.innerHTML=''; return; }
+  box.innerHTML = `<h3 style="font-size:14px;margin-bottom:12px;color:var(--text-dim)">Ваши объявления</h3>` +
+    myListings.map(p=>{
+      const tint = tintFor(p.id);
+      return `<div class="mine-row">
+        <div class="mine-row-art">${plantSVG(p.category, tint)}</div>
+        <div class="mine-row-title">${p.title}</div>
+        <div class="mine-row-price">${p.price.toLocaleString('ru-RU')} ₽</div>
+        <button class="del-x" onclick="deleteMine('${p.id}')">✕</button>
+      </div>`;
+    }).join('');
+}
+function deleteMine(id){
+  myListings = myListings.filter(p=>p.id!==id);
+  store.set('rostok_mylistings', myListings);
+  renderMineList();
+  applyFilters();
+}
+
+/* ============================= CHAT MODAL ============================= */
+const CANNED_REPLIES = [
+  'Здравствуйте! Да, растение в наличии, могу отправить сегодня 🌿',
+  'Добрый день! Уточните, вам самовывоз или пересылка удобнее?',
+  'Привет! Упакую с амортизацией, фото упаковки пришлю перед отправкой.',
+];
+function openChat(sellerName){
+  chatSellerName = sellerName;
+  const initials = sellerName.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  const html = `
+  <div class="overlay" id="chatOverlay" onclick="if(event.target===this) closeChat()">
+    <div class="chat-modal">
+      <div class="chat-head">
+        <span class="avatar-mini" style="width:32px;height:32px;font-size:12px">${initials}</span>
+        <div><b style="display:block">${sellerName}</b><span>обычно отвечает быстро</span></div>
+        <button class="chat-close" onclick="closeChat()">✕</button>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="msg them">Здравствуйте! Чем могу помочь?</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Написать сообщение..." onkeydown="if(event.key==='Enter') sendChat()">
+        <button class="chat-send" onclick="sendChat()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+}
+function closeChat(){
+  const ov = document.getElementById('chatOverlay');
+  if(ov) ov.remove();
+}
+function sendChat(){
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  const body = document.getElementById('chatBody');
+  body.insertAdjacentHTML('beforeend', `<div class="msg me">${escapeHtml(text)}</div>`);
+  input.value='';
+  body.scrollTop = body.scrollHeight;
+  setTimeout(()=>{
+    const reply = CANNED_REPLIES[Math.floor(Math.random()*CANNED_REPLIES.length)];
+    body.insertAdjacentHTML('beforeend', `<div class="msg them">${reply}</div>`);
+    body.scrollTop = body.scrollHeight;
+  }, 900);
+}
+function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+/* ============================= TOAST ============================= */
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toastText').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2400);
+}
+
+/* ============================= BADGES ============================= */
+function updateBadges(){
+  const fc = document.getElementById('favCount');
+  const cc = document.getElementById('cartCount');
+  fc.textContent = favorites.length; fc.classList.toggle('hide', favorites.length===0);
+  const cartTotalQty = cart.reduce((s,c)=>s+c.qty,0);
+  cc.textContent = cartTotalQty; cc.classList.toggle('hide', cartTotalQty===0);
+}
+
+/* ============================= INIT ============================= */
+renderChips();
+applyFilters();
+updateBadges();
+</script>
+</body>
+</html>
